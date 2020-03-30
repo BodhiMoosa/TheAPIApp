@@ -11,7 +11,6 @@ import UIKit
 class HomeVC: UIViewController {
     let logoImageView = UIImageView()
     let mainLabel = CustomLabel(text: "API App", size: 75, fontName: FontEnums.typewriter, alightment: .center)
-    //let bottomLabel = CustomLabel(text: "created by: Seraphox Solutions", size: 16, fontName: FontEnums.typewriter, alightment: .center)
     
     override func viewDidLoad() {
         super.viewDidLoad()
