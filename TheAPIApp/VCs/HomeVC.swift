@@ -11,7 +11,7 @@ import UIKit
 class HomeVC: UIViewController {
     let logoImageView = UIImageView()
     let mainLabel = CustomLabel(text: "API App", size: 75, fontName: FontEnums.typewriter, alightment: .center)
-    let bottomLabel = CustomLabel(text: "created by: Seraphox Solutions", size: 16, fontName: FontEnums.typewriter, alightment: .center)
+    //let bottomLabel = CustomLabel(text: "created by: Seraphox Solutions", size: 16, fontName: FontEnums.typewriter, alightment: .center)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,13 +24,11 @@ class HomeVC: UIViewController {
         view.backgroundColor = .systemGray3
         view.addSubview(logoImageView)
         view.addSubview(mainLabel)
-        view.addSubview(bottomLabel)
         self.navigationController?.navigationBar.isHidden = true
         
         logoImageView.image = UIImage(named: Assets.fullLogo)
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         mainLabel.translatesAutoresizingMaskIntoConstraints = false
-        bottomLabel.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
             
@@ -39,15 +37,11 @@ class HomeVC: UIViewController {
             mainLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             mainLabel.heightAnchor.constraint(equalToConstant: mainLabel.font.lineHeight),
             
-            logoImageView.widthAnchor.constraint(equalToConstant: view.bounds.width/3),
+            logoImageView.widthAnchor.constraint(equalToConstant: view.bounds.width/2),
             logoImageView.heightAnchor.constraint(equalTo: logoImageView.widthAnchor),
-            logoImageView.bottomAnchor.constraint(equalTo: bottomLabel.topAnchor, constant: 40),
-            logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            logoImageView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 40),
+            logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
             
-            bottomLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            bottomLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-            bottomLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
-            bottomLabel.heightAnchor.constraint(equalToConstant: 20)
         ])
 
     }

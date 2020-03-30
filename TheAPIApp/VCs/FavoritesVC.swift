@@ -171,7 +171,6 @@ extension FavoritesVC : MFMessageComposeViewControllerDelegate, MFMailComposeVie
 extension FavoritesVC : TableRefreshDelegate {
     func refreshTable() {
         tableData = DataManager.shared.getFavorites()
-        print("here")
         tableView.reloadData()
     }
 }

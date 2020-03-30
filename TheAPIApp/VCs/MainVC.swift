@@ -78,7 +78,6 @@ class MainVC: UIViewController {
             upButton.tintColor                                  = .label
             navigationItem.rightBarButtonItem                   = upButton
         } else {
-            print("fsad")
             navigationItem.backBarButtonItem = UIBarButtonItem(barButtonSystemItem: .camera, target: nil, action: nil)
             
         }
