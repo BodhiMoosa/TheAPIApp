@@ -47,6 +47,7 @@ class HomeVC: UIViewController {
     
     private func apiPull() {
         displayLoadingView()
+        self.tabBarController?.tabBar.isUserInteractionEnabled = false
         Networkmanager.shared.getAPIS { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -59,12 +60,18 @@ class HomeVC: UIViewController {
                         }
                     }
                     self.dismissLoadingView()
+                    self.tabBarController?.tabBar.isUserInteractionEnabled = true
                 }
             case .failure(_):
                 DispatchQueue.main.sync {
+                    let apis = DataManager.shared.getAllAPIs()
+                    if apis.count != 0 {
+                        self.tabBarController?.tabBar.isUserInteractionEnabled = true
+                    }
                     self.dismissLoadingView()
+                    self.presentAlertOnMainThread()
+
                 }
-                self.presentAlertOnMainThread()
             }
         }
     }

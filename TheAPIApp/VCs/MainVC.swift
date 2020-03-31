@@ -116,19 +116,18 @@ extension MainVC : UITableViewDelegate, UIScrollViewDelegate {
         }
     }
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        var title = "blank"
-        
+        var title = "Favorite"
+        var isFave = false
         let dataToPullFrom  = isSearching ? filteringData : apiData
         if favorites.count != 0 {
             for x in favorites {
                 if dataToPullFrom[indexPath.row].API == x.API {
-                    title = "Unfavorite"
-                } else {
-                    title = "Favorite"
+                    isFave = true
                 }
             }
-        } else {
-            title = "Favorites"
+        }
+        if isFave {
+            title = "Unfavorite"
         }
 
         let action          = UIContextualAction(style: .normal, title: title) { [weak self] (action, view, completed) in
@@ -154,6 +153,7 @@ extension MainVC : UITableViewDelegate, UIScrollViewDelegate {
                 }
             self.tableView.reloadData()
             completed(true)
+            
         }
         action.backgroundColor  = .systemPink
         let swipeConfig         = UISwipeActionsConfiguration(actions: [action])
@@ -163,7 +163,6 @@ extension MainVC : UITableViewDelegate, UIScrollViewDelegate {
 
 extension MainVC : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       // guard let apiData = apiData else { return 0 }
         return isSearching ? filteringData.count : apiData.count
     }
     
