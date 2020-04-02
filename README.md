@@ -12,7 +12,8 @@ TheAPIApp provides a list of open APIs for use in various projects with options 
 
 ## Authors
 
-* **Tayler Moosa** (https://seraphoxsolutions.com/)
+* **Tayler Moosa** (https://taylermoosa.com/)
+(https://seraphoxsolutions.com)
 
 ## Acknowledgments
 
