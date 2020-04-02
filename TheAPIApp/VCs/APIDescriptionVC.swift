@@ -34,6 +34,7 @@ class APIDescriptionVC: UIViewController {
         dataView                    = DetailsView(api: holder)
         dataView.delegate           = self
         dataView.favoriteDelegate   = self
+        dataView.popUpDelegate      = self
         
         view.addSubview(dataView)
         dataView.translatesAutoresizingMaskIntoConstraints = false
@@ -60,7 +61,11 @@ class APIDescriptionVC: UIViewController {
     }
 }
 
-extension APIDescriptionVC : EmailPopUpDelegate, MFMailComposeViewControllerDelegate, FavoriteUpdateDelegate { 
+extension APIDescriptionVC : EmailPopUpDelegate, MFMailComposeViewControllerDelegate, FavoriteUpdateDelegate, CopyPopUpDelegate {
+    func presentCopyPopUp() {
+        self.popUpPasteView()
+    }
+    
     func passbackToMainVC() {
         tableRefreshDelegate.refreshTable()
     }

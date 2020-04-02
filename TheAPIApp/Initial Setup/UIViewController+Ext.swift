@@ -74,6 +74,23 @@ extension UIViewController {
             self.present(alertVC, animated: true)
         }
     }
+    
+    func popUpPasteView() {
+        let popUp   = CopyPopUpView()
+        view.addSubview(popUp)
+        popUp.alpha = 0
+        popUp.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            popUp.centerYAnchor.constraint(equalTo: view.centerYAnchor,  constant: -150),
+            popUp.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            popUp.heightAnchor.constraint(equalToConstant: 100),
+            popUp.widthAnchor.constraint(equalToConstant: 250)
+        ])
+        UIView.animate(withDuration: 0.25) { popUp.alpha = 0.8 }
+        UIView.animate(withDuration: 0.75, animations: { popUp.alpha = 0 }) { _ in
+            popUp.removeFromSuperview()
+        }
+    }
 }
 
 

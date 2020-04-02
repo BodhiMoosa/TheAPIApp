@@ -9,6 +9,10 @@
 import UIKit
 import MessageUI
 
+protocol CopyPopUpDelegate : class {
+    func presentCopyPopUp()
+}
+
 protocol EmailPopUpDelegate : class {
     func emailPopUp(api: Entry)
 }
@@ -19,8 +23,11 @@ protocol FavoriteUpdateDelegate : class {
 
 class DetailsView: UIView, UITextFieldDelegate {
     
+    let pasteboard = UIPasteboard.general
+    
     var isFavorite = false
     let heartImage = UIImageView()
+    weak var popUpDelegate : CopyPopUpDelegate!
     weak var favoriteDelegate : FavoriteUpdateDelegate!
     weak var delegate : EmailPopUpDelegate!
     var api : Entry!
@@ -83,7 +90,6 @@ class DetailsView: UIView, UITextFieldDelegate {
         layer.borderColor                   = UIColor.gray.cgColor
         layer.borderWidth                   = 1
         Link.delegate                       = self
-        Link.inputView                      = UIView.init();
         Auth.isUserInteractionEnabled       = false
         Cors.isUserInteractionEnabled       = false
         HTTPS.isUserInteractionEnabled      = false
@@ -137,35 +143,37 @@ class DetailsView: UIView, UITextFieldDelegate {
                 switch result {
                 case .success(_):
                     DispatchQueue.main.async {
-                        self.heartImage.image = UIImage(systemName: Assets.heartEmpty)
-                        self.heartImage.layer.shadowRadius = 1
-                        self.isFavorite = false
+                        self.heartImage.image               = UIImage(systemName: Assets.heartEmpty)
+                        self.heartImage.layer.shadowRadius  = 1
+                        self.isFavorite                     = false
                     }
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
             }
-            heartImage.image = UIImage(systemName: Assets.heartEmpty)
-            heartImage.layer.shadowRadius = 1
-            isFavorite = false
+            heartImage.image                = UIImage(systemName: Assets.heartEmpty)
+            heartImage.layer.shadowRadius   = 1
+            isFavorite                      = false
         }
         favoriteDelegate.passbackToMainVC()
     }
     @objc func emailAction() {
-        emailButton.layer.shadowRadius = 5
-        emailButton.titleLabel?.font = UIFont(name: "AmericanTypewriter", size: 18)
+        emailButton.layer.shadowRadius  = 5
+        emailButton.titleLabel?.font    = UIFont(name: "AmericanTypewriter", size: 18)
         delegate.emailPopUp(api: api)
     }
     
     @objc func shadowDrop() {
-        emailButton.layer.shadowRadius = 0
-        emailButton.titleLabel?.font = UIFont(name: "AmericanTypewriter", size: 16)
+        emailButton.layer.shadowRadius  = 0
+        emailButton.titleLabel?.font    = UIFont(name: "AmericanTypewriter", size: 16)
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        return textField != Link; //lets you copy but not modify link
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        pasteboard.string = Link.text
+        popUpDelegate.presentCopyPopUp()
+        return false
     }
-
+    
     func dismissKeyboard() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(UIView.endEditing))
         self.addGestureRecognizer(tap)

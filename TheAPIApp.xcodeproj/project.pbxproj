@@ -23,6 +23,7 @@
 		3675058F242040500054C8C8 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3675058E242040500054C8C8 /* CustomLabel.swift */; };
 		36750591242041750054C8C8 /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36750590242041750054C8C8 /* DetailsView.swift */; };
 		36914ADD24218FA300C72687 /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36914ADC24218FA300C72687 /* UIViewController+Ext.swift */; };
+		3699FA4A243632390042BA6B /* CopyPopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3699FA49243632390042BA6B /* CopyPopUpView.swift */; };
 		369AF8C5241F23E600B8E01D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369AF8C4241F23E600B8E01D /* AppDelegate.swift */; };
 		369AF8C7241F23E600B8E01D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369AF8C6241F23E600B8E01D /* SceneDelegate.swift */; };
 		369AF8CF241F23E600B8E01D /* TheAPIApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 369AF8CD241F23E600B8E01D /* TheAPIApp.xcdatamodeld */; };
@@ -55,6 +56,7 @@
 		3675058E242040500054C8C8 /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
 		36750590242041750054C8C8 /* DetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
 		36914ADC24218FA300C72687 /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
+		3699FA49243632390042BA6B /* CopyPopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyPopUpView.swift; sourceTree = "<group>"; };
 		369AF8C1241F23E600B8E01D /* TheAPIApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheAPIApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		369AF8C4241F23E600B8E01D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		369AF8C6241F23E600B8E01D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 				362EBAD82427C929003E76DB /* EmptyBackgroundView.swift */,
 				361F6531242416F7007922F0 /* EmptyView.swift */,
 				36750590242041750054C8C8 /* DetailsView.swift */,
+				3699FA49243632390042BA6B /* CopyPopUpView.swift */,
 			);
 			path = "Custom Views";
 			sourceTree = "<group>";
@@ -276,6 +279,7 @@
 				360F24E42425139F0059BCB4 /* FontEnums.swift in Sources */,
 				369AF8DC241F25AB00B8E01D /* HomeVC.swift in Sources */,
 				362EBAD92427C929003E76DB /* EmptyBackgroundView.swift in Sources */,
+				3699FA4A243632390042BA6B /* CopyPopUpView.swift in Sources */,
 				369AF8E82420387700B8E01D /* CategoriesVC.swift in Sources */,
 				362E707A24295FA900490380 /* EmailErrorVC.swift in Sources */,
 				369AF8E2241F2DF000B8E01D /* NetworkManager.swift in Sources */,
