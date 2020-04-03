@@ -94,7 +94,6 @@ extension FavoritesVC : UITableViewDelegate, UITableViewDataSource, UIScrollView
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc                  = APIDescriptionVC()
-        vc.tableRefreshDelegate = self
         vc.holder               = tableData[indexPath.row]
         vc.isDoneButton         = false
         navigationController?.pushViewController(vc, animated: true)
@@ -166,11 +165,5 @@ extension FavoritesVC : MFMessageComposeViewControllerDelegate, MFMailComposeVie
     } else {
         presentEmailErrorOnMainThread()
         }
-    }
-}
-extension FavoritesVC : TableRefreshDelegate {
-    func refreshTable() {
-        tableData = DataManager.shared.getFavorites()
-        tableView.reloadData()
     }
 }

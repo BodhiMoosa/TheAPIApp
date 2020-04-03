@@ -17,10 +17,6 @@ protocol EmailPopUpDelegate : class {
     func emailPopUp(api: Entry)
 }
 
-protocol FavoriteUpdateDelegate : class {
-    func passbackToMainVC()
-}
-
 class DetailsView: UIView, UITextFieldDelegate {
     
     let pasteboard = UIPasteboard.general
@@ -28,7 +24,6 @@ class DetailsView: UIView, UITextFieldDelegate {
     var isFavorite = false
     let heartImage = UIImageView()
     weak var popUpDelegate : CopyPopUpDelegate!
-    weak var favoriteDelegate : FavoriteUpdateDelegate!
     weak var delegate : EmailPopUpDelegate!
     var api : Entry!
     var holderArray : [UITextField]!
@@ -155,7 +150,7 @@ class DetailsView: UIView, UITextFieldDelegate {
             heartImage.layer.shadowRadius   = 1
             isFavorite                      = false
         }
-        favoriteDelegate.passbackToMainVC()
+        NotificationCenter.default.post(name: NSNotification.Name("updateViews"), object: nil)
     }
     @objc func emailAction() {
         emailButton.layer.shadowRadius  = 5

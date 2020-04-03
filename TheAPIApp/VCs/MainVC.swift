@@ -19,12 +19,26 @@ class MainVC: UIViewController {
     var upButton                = UIBarButtonItem()
     var searchButton            = UIBarButtonItem()
     var apiData : [Entry] = []
-    
+    let notificationName = NSNotification.Name("updateViews")
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
         configure()
         configureNavBar()
+        createObserver()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    func createObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(test), name: notificationName, object: nil)
+    }
+    
+    @objc func test() {
+        favorites = DataManager.shared.getFavorites()
+        tableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -99,7 +113,6 @@ extension MainVC : UITableViewDelegate, UIScrollViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let singleAPI                   = isSearching ? filteringData[indexPath.row] : apiData[indexPath.row]
         let vc                          = APIDescriptionVC()
-        vc.tableRefreshDelegate         = self
         vc.holder                       = singleAPI
         searchController.isActive       = false
         let presentingVC                = UINavigationController(rootViewController: vc)
@@ -190,8 +203,6 @@ extension MainVC : UITableViewDataSource {
             cell.separator.isHidden = false
             
         }
-
-
         return cell
     }
 }
@@ -230,10 +241,5 @@ extension MainVC : UISearchControllerDelegate, UISearchResultsUpdating, UISearch
     }
 }
 
-extension MainVC : TableRefreshDelegate {
-    func refreshTable() {
-        favorites = DataManager.shared.getFavorites()
-        tableView.reloadData()
-    }
-}
+
 

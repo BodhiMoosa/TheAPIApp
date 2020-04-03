@@ -9,16 +9,11 @@
 import UIKit
 import MessageUI
 
-protocol TableRefreshDelegate : class {
-    func refreshTable()
-}
-
 class APIDescriptionVC: UIViewController {
     
-    var isDoneButton = true
+    var dataView        = DetailsView()
+    var isDoneButton    = true
     var holder : Entry?
-    var dataView = DetailsView()
-    weak var tableRefreshDelegate : TableRefreshDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +28,6 @@ class APIDescriptionVC: UIViewController {
         title                       = holder.API
         dataView                    = DetailsView(api: holder)
         dataView.delegate           = self
-        dataView.favoriteDelegate   = self
         dataView.popUpDelegate      = self
         
         view.addSubview(dataView)
@@ -61,14 +55,11 @@ class APIDescriptionVC: UIViewController {
     }
 }
 
-extension APIDescriptionVC : EmailPopUpDelegate, MFMailComposeViewControllerDelegate, FavoriteUpdateDelegate, CopyPopUpDelegate {
+extension APIDescriptionVC : EmailPopUpDelegate, MFMailComposeViewControllerDelegate, CopyPopUpDelegate {
     func presentCopyPopUp() {
         self.popUpPasteView()
     }
     
-    func passbackToMainVC() {
-        tableRefreshDelegate.refreshTable()
-    }
     
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true, completion: nil)
