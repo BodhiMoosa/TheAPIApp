@@ -22,14 +22,11 @@ class APIDescriptionVC: UIViewController {
     
     private func configure() {
         configureNavBar()
-        guard let holder            = holder else { return }
-        
-        view.backgroundColor        = .systemBackground
-        title                       = holder.API
-        dataView                    = DetailsView(api: holder)
-        dataView.delegate           = self
-        dataView.popUpDelegate      = self
-        
+        guard let holder                        = holder else { return }
+        view.backgroundColor                    = .systemBackground
+        title                                   = holder.API
+        dataView                                = DetailsView(api: holder)
+        dataView.backToAPIDescriptionVCDelegate = self
         view.addSubview(dataView)
         dataView.translatesAutoresizingMaskIntoConstraints = false
         let padding : CGFloat = 10
@@ -51,11 +48,11 @@ class APIDescriptionVC: UIViewController {
             doneButton.tintColor                                = .label
             navigationItem.rightBarButtonItem                   = doneButton
         }
-        navigationController?.navigationBar.barTintColor    = .systemGray2
+        navigationController?.navigationBar.barTintColor        = .systemGray2
     }
 }
 
-extension APIDescriptionVC : EmailPopUpDelegate, MFMailComposeViewControllerDelegate, CopyPopUpDelegate {
+extension APIDescriptionVC :  MFMailComposeViewControllerDelegate, BackToAPIDescriptionVCDelegate {
     func presentCopyPopUp() {
         self.popUpPasteView()
     }
@@ -67,14 +64,14 @@ extension APIDescriptionVC : EmailPopUpDelegate, MFMailComposeViewControllerDele
         
     func emailPopUp(api: Entry) {
             if MFMailComposeViewController.canSendMail() {
-                let mail = MFMailComposeViewController()
+                let mail        = MFMailComposeViewController()
                 mail.mailComposeDelegate = self
                 mail.setToRecipients([])
-                var authFinal = ""
+                var authFinal   = ""
                 if api.Auth == "" || api.Auth == nil {
-                    authFinal = "None"
+                    authFinal   = "None"
                 } else {
-                    authFinal = api.Auth!
+                    authFinal   = api.Auth!
                 }
                 let auth        = "\nAuthorzation: " + authFinal
                 let name        = "API Name: " + api.API
@@ -91,4 +88,46 @@ extension APIDescriptionVC : EmailPopUpDelegate, MFMailComposeViewControllerDele
             presentEmailErrorOnMainThread()
         }
     }
+    
+    func favoriteToggle() {
+        guard let holder = holder else { return }
+        if !dataView.isFavorite {
+            
+            DataManager.shared.saveFavorite(api: holder) { [weak self] (result) in
+                guard let self = self else { return }
+                switch result {
+                case .success(_):
+                    DispatchQueue.main.async {
+                        self.dataView.heartImage.image = StaticImages.heartFilled
+                        self.dataView.isFavorite = true
+                        self.dataView.heartImage.layer.shadowRadius = 0
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+            dataView.heartImage.image                = StaticImages.heartFilled
+            dataView.isFavorite                      = true
+            dataView.heartImage.layer.shadowRadius   = 0
+        } else {
+            DataManager.shared.removeFavovorite(title: holder.API) { [weak self] (result) in
+                guard let self = self else { return }
+                switch result {
+                case .success(_):
+                    DispatchQueue.main.async {
+                        self.dataView.heartImage.image               = StaticImages.heartEmpty
+                        self.dataView.heartImage.layer.shadowRadius  = 1
+                        self.dataView.isFavorite                     = false
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+            dataView.heartImage.image                = StaticImages.heartEmpty
+            dataView.heartImage.layer.shadowRadius   = 1
+            dataView.isFavorite                      = false
+        }
+        NotificationCenter.default.post(name: NSNotification.Name("updateViews"), object: nil)
+    }
 }
+

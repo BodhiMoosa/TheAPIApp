@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
         let attributes                                          = [
             NSAttributedString.Key.foregroundColor: UIColor.label,
-              NSAttributedString.Key.font: UIFont(name: FontEnums.typewriter, size: 24)!
+              NSAttributedString.Key.font: UIFont(name: StaticFonts.typewriter, size: 24)!
           ]
         UINavigationBar.appearance().titleTextAttributes        = attributes
     }
@@ -38,7 +38,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func createHomeVC() -> UINavigationController {
         let vc                                                  = HomeVC()
-        vc.tabBarItem                                           = UITabBarItem(title: "Home", image: UIImage(systemName: Assets.home), tag: 0)
+        vc.tabBarItem                                           = UITabBarItem(title: "Home", image: StaticImages.home, tag: 0)
         let nav                                                 = UINavigationController(rootViewController: vc)
         nav.navigationBar.barTintColor                          = .systemGray2
         return nav
@@ -47,7 +47,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func createMainVC() -> UINavigationController {
         let vc                                                  = MainVC()
         vc.title                                                = "APIs"
-        vc.tabBarItem                                           = UITabBarItem(title: "All APIs", image: UIImage(systemName: Assets.list), tag: 1)
+        vc.tabBarItem                                           = UITabBarItem(title: "All APIs", image: StaticImages.list, tag: 1)
         let nav                                                 = UINavigationController(rootViewController: vc)
         nav.navigationBar.backgroundColor                       = .systemGray2
         return nav
@@ -56,7 +56,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func createCategoriesVC() -> UINavigationController {
         let vc                                                  = CategoriesVC()
         vc.title                                                = "API Categories"
-        vc.tabBarItem                                           = UITabBarItem(title: "Categories", image: UIImage(systemName: Assets.trays), tag: 2)
+        vc.tabBarItem                                           = UITabBarItem(title: "Categories", image: StaticImages.trays, tag: 2)
         let nav                                                 = UINavigationController(rootViewController: vc)
         nav.navigationBar.barTintColor                          = .systemGray2
         return nav
@@ -65,7 +65,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func createFavoritesVC() -> UINavigationController {
         let vc                                                  = FavoritesVC()
         vc.title                                                = "Favorites"
-        vc.tabBarItem                                           = UITabBarItem(title: "Favorites", image: UIImage(systemName: Assets.heartEmpty), tag: 3)
+        vc.tabBarItem                                           = UITabBarItem(title: "Favorites", image: StaticImages.heartEmpty, tag: 3)
         let nav                                                 = UINavigationController(rootViewController: vc)
         nav.navigationBar.barTintColor                          = .systemGray2
         return nav

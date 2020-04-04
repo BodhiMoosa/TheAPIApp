@@ -8,9 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		360F24E2242510450059BCB4 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360F24E1242510450059BCB4 /* BackgroundView.swift */; };
-		360F24E42425139F0059BCB4 /* FontEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360F24E32425139F0059BCB4 /* FontEnums.swift */; };
 		361F6532242416F7007922F0 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 361F6531242416F7007922F0 /* EmptyView.swift */; };
-		362CC3CC2423D96D008873B5 /* AssetEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362CC3CB2423D96D008873B5 /* AssetEnums.swift */; };
 		362CC3CE2423E312008873B5 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362CC3CD2423E312008873B5 /* CoreDataManager.swift */; };
 		362E70752429340200490380 /* AlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362E70742429340200490380 /* AlertVC.swift */; };
 		362E7077242934B500490380 /* AlertButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362E7076242934B500490380 /* AlertButton.swift */; };
@@ -18,6 +16,7 @@
 		362EBAD52427BB2C003E76DB /* ScienceFair-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 362EBAD42427BB2C003E76DB /* ScienceFair-Bold.otf */; };
 		362EBAD72427BB52003E76DB /* SpaceWhamRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 362EBAD62427BB52003E76DB /* SpaceWhamRegular.ttf */; };
 		362EBAD92427C929003E76DB /* EmptyBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362EBAD82427C929003E76DB /* EmptyBackgroundView.swift */; };
+		363040ED243912D5008FEFC6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 363040EC243912D5008FEFC6 /* Constants.swift */; };
 		3666E41924213E490031DDC6 /* EmailButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3666E41824213E490031DDC6 /* EmailButton.swift */; };
 		3675058D24203F910054C8C8 /* APIDescriptionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3675058C24203F910054C8C8 /* APIDescriptionVC.swift */; };
 		3675058F242040500054C8C8 /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3675058E242040500054C8C8 /* CustomLabel.swift */; };
@@ -41,9 +40,7 @@
 
 /* Begin PBXFileReference section */
 		360F24E1242510450059BCB4 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
-		360F24E32425139F0059BCB4 /* FontEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontEnums.swift; sourceTree = "<group>"; };
 		361F6531242416F7007922F0 /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
-		362CC3CB2423D96D008873B5 /* AssetEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetEnums.swift; sourceTree = "<group>"; };
 		362CC3CD2423E312008873B5 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		362E70742429340200490380 /* AlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertVC.swift; sourceTree = "<group>"; };
 		362E7076242934B500490380 /* AlertButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertButton.swift; sourceTree = "<group>"; };
@@ -51,6 +48,7 @@
 		362EBAD42427BB2C003E76DB /* ScienceFair-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ScienceFair-Bold.otf"; sourceTree = "<group>"; };
 		362EBAD62427BB52003E76DB /* SpaceWhamRegular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SpaceWhamRegular.ttf; sourceTree = "<group>"; };
 		362EBAD82427C929003E76DB /* EmptyBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyBackgroundView.swift; sourceTree = "<group>"; };
+		363040EC243912D5008FEFC6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		3666E41824213E490031DDC6 /* EmailButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailButton.swift; sourceTree = "<group>"; };
 		3675058C24203F910054C8C8 /* APIDescriptionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIDescriptionVC.swift; sourceTree = "<group>"; };
 		3675058E242040500054C8C8 /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
@@ -136,8 +134,7 @@
 				3675058E242040500054C8C8 /* CustomLabel.swift */,
 				3666E41824213E490031DDC6 /* EmailButton.swift */,
 				362E7076242934B500490380 /* AlertButton.swift */,
-				362CC3CB2423D96D008873B5 /* AssetEnums.swift */,
-				360F24E32425139F0059BCB4 /* FontEnums.swift */,
+				363040EC243912D5008FEFC6 /* Constants.swift */,
 			);
 			path = "Custom Objects";
 			sourceTree = "<group>";
@@ -271,12 +268,10 @@
 				369AF8E6241FFDF300B8E01D /* APICell.swift in Sources */,
 				362E70752429340200490380 /* AlertVC.swift in Sources */,
 				36914ADD24218FA300C72687 /* UIViewController+Ext.swift in Sources */,
-				362CC3CC2423D96D008873B5 /* AssetEnums.swift in Sources */,
 				362CC3CE2423E312008873B5 /* CoreDataManager.swift in Sources */,
 				361F6532242416F7007922F0 /* EmptyView.swift in Sources */,
 				369AF8DE241F277F00B8E01D /* MainVC.swift in Sources */,
 				362E7077242934B500490380 /* AlertButton.swift in Sources */,
-				360F24E42425139F0059BCB4 /* FontEnums.swift in Sources */,
 				369AF8DC241F25AB00B8E01D /* HomeVC.swift in Sources */,
 				362EBAD92427C929003E76DB /* EmptyBackgroundView.swift in Sources */,
 				3699FA4A243632390042BA6B /* CopyPopUpView.swift in Sources */,
@@ -293,6 +288,7 @@
 				369AF8E4241FED8E00B8E01D /* CustomErrors.swift in Sources */,
 				369AF8E0241F2CDD00B8E01D /* API.swift in Sources */,
 				369AF8C7241F23E600B8E01D /* SceneDelegate.swift in Sources */,
+				363040ED243912D5008FEFC6 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

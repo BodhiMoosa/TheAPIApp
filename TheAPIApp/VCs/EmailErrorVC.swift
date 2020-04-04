@@ -11,8 +11,8 @@ import UIKit
 class EmailErrorVC: UIViewController {
     
 let containerView       = UIView()
-let titleLabel          = CustomLabel(text: "Cannot Send Email", size: 20, fontName: FontEnums.typewriterBold, alightment: .center)
-let messageLabel        = CustomLabel(text: "Unable to send an email currently.", size: 12, fontName: FontEnums.typewriter, alightment: .center)
+    let titleLabel      = CustomLabel(text: "Cannot Send Email", size: 20, fontName: StaticFonts.typewriterBold, alightment: .center)
+let messageLabel        = CustomLabel(text: "Unable to send an email currently.", size: 12, fontName: StaticFonts.typewriter, alightment: .center)
 let actionButton        = AlertButton()
 let padding : CGFloat   = 20
 

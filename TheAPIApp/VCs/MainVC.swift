@@ -192,9 +192,9 @@ extension MainVC : UITableViewDataSource {
             }
         }
         if isfave {
-            cell.heart.image = UIImage(systemName: Assets.heartFilled)
+            cell.heart.image = StaticImages.heartFilled
         } else {
-            cell.heart.image = UIImage(systemName: Assets.heartEmpty)
+            cell.heart.image = StaticImages.heartEmpty
         }
         cell.indexPath = indexPath
         if entry == datasource.last {

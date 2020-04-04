@@ -25,9 +25,9 @@ class BackgroundView: UIView {
     }
     
     private func configure() {
-        label       = CustomLabel(text: "Nothing", size: fontSize, fontName: FontEnums.typewriterBold, alightment: .left)
-        label2      = CustomLabel(text: "To See", size: fontSize, fontName: FontEnums.typewriterBold, alightment: .left)
-        label3      = CustomLabel(text: "Here!", size: fontSize, fontName: FontEnums.typewriterBold, alightment: .left)
+        label       = CustomLabel(text: "Nothing", size: fontSize, fontName: StaticFonts.typewriterBold, alightment: .left)
+        label2      = CustomLabel(text: "To See", size: fontSize, fontName: StaticFonts.typewriterBold, alightment: .left)
+        label3      = CustomLabel(text: "Here!", size: fontSize, fontName: StaticFonts.typewriterBold, alightment: .left)
         
         self.addSubview(label)
         self.addSubview(label2)
@@ -42,7 +42,7 @@ class BackgroundView: UIView {
         bottomCover.backgroundColor                             = .systemGray4
         bottomCover.alpha                                       = 0.8
         backgroundColor                                         = .systemPink
-        logo.image                                              = UIImage(named: Assets.headlogo)
+        logo.image                                              = StaticImages.headlogo
         let logoSize                                            = UIScreen.main.bounds.height/2
         let labelsLeadingOffset : CGFloat = 10
         

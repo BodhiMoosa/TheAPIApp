@@ -38,7 +38,7 @@ class FavoritesVC: UIViewController {
     }
     
     private func configure() {
-        let emailButton                     = UIBarButtonItem(image: UIImage(systemName: Assets.plane), style: .plain, target: self, action: #selector(email))
+        let emailButton                     = UIBarButtonItem(image: StaticImages.plane, style: .plain, target: self, action: #selector(email))
         navigationItem.rightBarButtonItem   = emailButton
         navigationController?.navigationBar.layer.shadowColor = UIColor.black.cgColor
         navigationController?.navigationBar.layer.shadowRadius = 3

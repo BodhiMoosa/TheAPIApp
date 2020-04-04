@@ -27,10 +27,10 @@ class EmptyView: UIView {
         let logoSize                                    = UIScreen.main.bounds.height/2
         let logoOffset                                  = logoSize * 0.3
         let fontSize                                    = UIScreen.main.bounds.width/10
-        label                                           = CustomLabel(text: "You have no favorites.", size: fontSize, fontName: FontEnums.typewriter, alightment: .center)
-        label2                                          = CustomLabel(text: "Go add some!", size: fontSize, fontName: FontEnums.typewriter, alightment: .center)
+        label                                           = CustomLabel(text: "You have no favorites.", size: fontSize, fontName: StaticFonts.typewriter, alightment: .center)
+        label2                                          = CustomLabel(text: "Go add some!", size: fontSize, fontName: StaticFonts.typewriter, alightment: .center)
         backgroundColor                                 = .systemPink
-        logo.image                                      = UIImage(named: Assets.headlogo)
+        logo.image                                      = StaticImages.headlogo
         logo.translatesAutoresizingMaskIntoConstraints  = false
         addSubview(logo)
         addSubview(label)

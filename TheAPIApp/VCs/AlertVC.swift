@@ -11,8 +11,8 @@ import UIKit
 class AlertVC: UIViewController {
         
     let containerView       = UIView()
-    let titleLabel          = CustomLabel(text: "Data Sync Error", size: 20, fontName: FontEnums.typewriterBold, alightment: .center)
-    let messageLabel        = CustomLabel(text: "Unable to check for new data. No worries though! We'll just check next time.", size: 12, fontName: FontEnums.typewriter, alightment: .center)
+    let titleLabel          = CustomLabel(text: "Data Sync Error", size: 20, fontName: StaticFonts.typewriterBold, alightment: .center)
+    let messageLabel        = CustomLabel(text: "Unable to check for new data. No worries though! We'll just check next time.", size: 12, fontName: StaticFonts.typewriter, alightment: .center)
     let actionButton        = AlertButton()
     let padding : CGFloat   = 20
 

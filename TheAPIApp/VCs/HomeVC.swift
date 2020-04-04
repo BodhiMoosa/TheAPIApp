@@ -10,7 +10,7 @@ import UIKit
 
 class HomeVC: UIViewController {
     let logoImageView = UIImageView()
-    let mainLabel = CustomLabel(text: "API App", size: 75, fontName: FontEnums.typewriter, alightment: .center)
+    let mainLabel = CustomLabel(text: "API App", size: 75, fontName: StaticFonts.typewriter, alightment: .center)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +25,7 @@ class HomeVC: UIViewController {
         view.addSubview(mainLabel)
         self.navigationController?.navigationBar.isHidden = true
         
-        logoImageView.image = UIImage(named: Assets.fullLogo)
+        logoImageView.image = StaticImages.fullLogo
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         mainLabel.translatesAutoresizingMaskIntoConstraints = false
 

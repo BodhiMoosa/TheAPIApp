@@ -9,22 +9,17 @@
 import UIKit
 import MessageUI
 
-protocol CopyPopUpDelegate : class {
-    func presentCopyPopUp()
-}
-
-protocol EmailPopUpDelegate : class {
+protocol BackToAPIDescriptionVCDelegate : class {
     func emailPopUp(api: Entry)
+    func presentCopyPopUp()
+    func favoriteToggle()
 }
-
 class DetailsView: UIView, UITextFieldDelegate {
     
     let pasteboard = UIPasteboard.general
-    
     var isFavorite = false
     let heartImage = UIImageView()
-    weak var popUpDelegate : CopyPopUpDelegate!
-    weak var delegate : EmailPopUpDelegate!
+    weak var backToAPIDescriptionVCDelegate : BackToAPIDescriptionVCDelegate!
     var api : Entry!
     var holderArray : [UITextField]!
     
@@ -43,9 +38,9 @@ class DetailsView: UIView, UITextFieldDelegate {
     func updateFaveImage() {
         isFavorite = DataManager.shared.checkFavorite(name: api.API)
         if isFavorite {
-            heartImage.image = UIImage(systemName: Assets.heartFilled)
+            heartImage.image = StaticImages.heartFilled
         } else {
-            heartImage.image = UIImage(systemName: Assets.heartEmpty)
+            heartImage.image = StaticImages.heartEmpty
         }
     }
 
@@ -115,47 +110,12 @@ class DetailsView: UIView, UITextFieldDelegate {
         emailButton.addTarget(self, action: #selector(shadowDrop), for: .touchDown)
     }
     @objc func heartTap() {
-        if !isFavorite {
-            DataManager.shared.saveFavorite(api: api) { [weak self] (result) in
-                guard let self = self else { return }
-                switch result {
-                case .success(_):
-                    DispatchQueue.main.async {
-                        self.heartImage.image = UIImage(systemName: Assets.heartFilled)
-                        self.isFavorite = true
-                        self.heartImage.layer.shadowRadius = 0
-                    }
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-            }
-            heartImage.image                = UIImage(systemName: Assets.heartFilled)
-            isFavorite                      = true
-            heartImage.layer.shadowRadius   = 0
-        } else {
-            DataManager.shared.removeFavovorite(title: api.API) { [weak self] (result) in
-                guard let self = self else { return }
-                switch result {
-                case .success(_):
-                    DispatchQueue.main.async {
-                        self.heartImage.image               = UIImage(systemName: Assets.heartEmpty)
-                        self.heartImage.layer.shadowRadius  = 1
-                        self.isFavorite                     = false
-                    }
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-            }
-            heartImage.image                = UIImage(systemName: Assets.heartEmpty)
-            heartImage.layer.shadowRadius   = 1
-            isFavorite                      = false
-        }
-        NotificationCenter.default.post(name: NSNotification.Name("updateViews"), object: nil)
+        backToAPIDescriptionVCDelegate.favoriteToggle()
     }
     @objc func emailAction() {
         emailButton.layer.shadowRadius  = 5
         emailButton.titleLabel?.font    = UIFont(name: "AmericanTypewriter", size: 18)
-        delegate.emailPopUp(api: api)
+        backToAPIDescriptionVCDelegate.emailPopUp(api: api)
     }
     
     @objc func shadowDrop() {
@@ -165,7 +125,7 @@ class DetailsView: UIView, UITextFieldDelegate {
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         pasteboard.string = Link.text
-        popUpDelegate.presentCopyPopUp()
+        backToAPIDescriptionVCDelegate.presentCopyPopUp()
         return false
     }
     

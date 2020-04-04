@@ -31,7 +31,7 @@ class APICell: UITableViewCell {
         apiName.textAlignment                               = .center
         apiName.translatesAutoresizingMaskIntoConstraints   = false
         self.backgroundColor                                = .systemGray4
-        apiName.font                                        = UIFont(name: FontEnums.typewriter, size: 20)
+        apiName.font                                        = UIFont(name: StaticFonts.typewriter, size: 20)
         apiName.adjustsFontSizeToFitWidth                   = true
         apiName.minimumScaleFactor                          = 0.50
         
