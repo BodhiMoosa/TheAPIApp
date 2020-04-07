@@ -36,7 +36,7 @@ class DetailsView: UIView, UITextFieldDelegate {
     }
     
     func updateFaveImage() {
-        isFavorite = DataManager.shared.checkFavorite(name: api.API)
+        isFavorite = DataManager.shared.checkFavorite(name: api.api)
         if isFavorite {
             heartImage.image = StaticImages.heartFilled
         } else {
@@ -55,16 +55,16 @@ class DetailsView: UIView, UITextFieldDelegate {
     init(api: Entry) {
         super.init(frame: .zero)
         self.api                = api
-        Description.text        = api.Description
-        if api.Auth == "" {
+        Description.text        = api.description
+        if api.auth == "" {
             Auth.text           = "Auth: None"
         } else {
-            Auth.text           = "Auth: " + api.Auth!
+            Auth.text           = "Auth: " + api.auth!
         }
-        HTTPS.text              = "HTTPS: " + String(api.HTTPS)
-        Cors.text               = "Cors: " + api.Cors
-        Link.text               = api.Link
-        Category.text           = "Category: " + api.Category
+        HTTPS.text              = "HTTPS: " + String(api.https)
+        Cors.text               = "Cors: " + api.cors
+        Link.text               = api.link
+        Category.text           = "Category: " + api.category
         
         configure()
         configureConstraints()

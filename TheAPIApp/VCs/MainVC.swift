@@ -134,7 +134,7 @@ extension MainVC : UITableViewDelegate, UIScrollViewDelegate {
         let dataToPullFrom  = isSearching ? filteringData : apiData
         if favorites.count != 0 {
             for x in favorites {
-                if dataToPullFrom[indexPath.row].API == x.API {
+                if dataToPullFrom[indexPath.row].api == x.api {
                     isFave = true
                 }
             }
@@ -146,7 +146,7 @@ extension MainVC : UITableViewDelegate, UIScrollViewDelegate {
         let action          = UIContextualAction(style: .normal, title: title) { [weak self] (action, view, completed) in
             guard let self  = self else { return }
                 if title == "Unfavorite" {
-                    DataManager.shared.removeFavovorite(title: dataToPullFrom[indexPath.row].API) { result in
+                    DataManager.shared.removeFavovorite(title: dataToPullFrom[indexPath.row].api) { result in
                         switch result {
                         case .success(_):
                             self.favorites = DataManager.shared.getFavorites()
@@ -184,10 +184,10 @@ extension MainVC : UITableViewDataSource {
         var isfave = false
         let cell = tableView.dequeueReusableCell(withIdentifier: APICell.reuseID) as! APICell
         let entry = datasource[indexPath.row]
-        cell.set(api: entry.API)
+        cell.set(api: entry.api)
         
         for x in favorites {
-            if x.API == entry.API {
+            if x.api == entry.api {
                 isfave = true
             }
         }
@@ -215,7 +215,7 @@ extension MainVC : UISearchControllerDelegate, UISearchResultsUpdating, UISearch
             tableView.reloadData()
             return
         }
-        filteringData       = apiData.filter { $0.API.lowercased().contains(filter.lowercased()) }
+        filteringData       = apiData.filter { $0.api.lowercased().contains(filter.lowercased()) }
         setUpTableViewBackgroundImage(data: filteringData)
         isSearching         = true
         tableView.reloadData()

@@ -82,9 +82,9 @@ extension FavoritesVC : UITableViewDelegate, UITableViewDataSource, UIScrollView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell            = tableView.dequeueReusableCell(withIdentifier: APICell.reuseID) as! APICell
-        cell.apiName.text   = tableData[indexPath.row].API
+        cell.apiName.text   = tableData[indexPath.row].api
         guard let last      = tableData.last else { return cell }
-        if cell.apiName.text == last.API {
+        if cell.apiName.text == last.api {
             cell.separator.isHidden = true
         } else {
             cell.separator.isHidden = false
@@ -101,7 +101,7 @@ extension FavoritesVC : UITableViewDelegate, UITableViewDataSource, UIScrollView
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let action              = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, view, completed) in
             guard let self      = self else { return }
-            DataManager.shared.removeFavovorite(title: self.tableData[indexPath.row].API) { (result) in
+            DataManager.shared.removeFavovorite(title: self.tableData[indexPath.row].api) { (result) in
                 switch result {
                 case .success(_):
                     self.tableData.remove(at: indexPath.row)
@@ -144,18 +144,18 @@ extension FavoritesVC : MFMessageComposeViewControllerDelegate, MFMailComposeVie
             mail.mailComposeDelegate = self
             mail.setToRecipients([])
             for x in tableData {
-                let name = "Name: " + x.API + "\n"
+                let name = "Name: " + x.api + "\n"
                 var authFinal = ""
-                    if x.Auth == "" || x.Auth == nil {
+                    if x.auth == "" || x.auth == nil {
                         authFinal = "None"
                     } else {
-                        authFinal = x.Auth!
+                        authFinal = x.auth!
                     }
                 let auth = "\nAuthorzation: " + authFinal + "\n"
-                let cors = "Cors: " + x.Cors + "\n"
-                let category = "Category: " + x.Category + "\n"
-                let description = "Description: " + x.Description + "\n\n\n"
-                let link = x.Link + "\n"
+                let cors = "Cors: " + x.cors + "\n"
+                let category = "Category: " + x.category + "\n"
+                let description = "Description: " + x.description + "\n\n\n"
+                let link = x.link + "\n"
                 let section = name + auth + cors + category + link + description
                 bodyText.append(section)
             }

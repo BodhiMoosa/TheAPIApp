@@ -46,7 +46,7 @@ class DataManager {
                 let cors = x.cors ?? "unknown"
                 let link = x.link ?? "N/A"
                 let category = x.category ?? "unknown"
-                let singleEntry = Entry(API: name, Description: description, Auth: auth, HTTPS: https, Cors: cors, Link: link, Category: category)
+                let singleEntry = Entry(api: name, description: description, auth: auth, https: https, cors: cors, link: link, category: category)
                 holderArray.append(singleEntry)
             }
         } catch {
@@ -59,13 +59,13 @@ class DataManager {
         guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else { return }
         let entity = NSEntityDescription.entity(forEntityName: "Favorite", in: context)!
         let favorite = NSManagedObject(entity: entity, insertInto: context)
-        favorite.setValue(api.API, forKey: "name")
-        favorite.setValue(api.Auth, forKey: "auth")
-        favorite.setValue(api.Cors, forKey: "cors")
-        favorite.setValue(api.Category, forKey: "category")
-        favorite.setValue(api.Description, forKey: "desc")
-        favorite.setValue(api.HTTPS, forKey: "https")
-        favorite.setValue(api.Link, forKey: "link")
+        favorite.setValue(api.api, forKey: "name")
+        favorite.setValue(api.auth, forKey: "auth")
+        favorite.setValue(api.cors, forKey: "cors")
+        favorite.setValue(api.category, forKey: "category")
+        favorite.setValue(api.description, forKey: "desc")
+        favorite.setValue(api.https, forKey: "https")
+        favorite.setValue(api.link, forKey: "link")
         do {
             try context.save()
             completed(.success("Saved!"))
@@ -108,7 +108,7 @@ class DataManager {
                 let cors = x.cors ?? "unknown"
                 let link = x.link ?? "N/A"
                 let category = x.category ?? "unknown"
-                let singleEntry = Entry(API: name, Description: description, Auth: auth, HTTPS: https, Cors: cors, Link: link, Category: category)
+                let singleEntry = Entry(api: name, description: description, auth: auth, https: https, cors: cors, link: link, category: category)
                 holderArray.append(singleEntry)
             }
         } catch {
@@ -121,13 +121,13 @@ class DataManager {
         guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else { return }
         let entity = NSEntityDescription.entity(forEntityName: "SingleAPI", in: context)!
         let single = NSManagedObject(entity: entity, insertInto: context)
-        single.setValue(api.API, forKey: "name")
-        single.setValue(api.Auth, forKey: "auth")
-        single.setValue(api.Cors, forKey: "cors")
-        single.setValue(api.Category, forKey: "category")
-        single.setValue(api.Description, forKey: "desc")
-        single.setValue(api.HTTPS, forKey: "https")
-        single.setValue(api.Link, forKey: "link")
+        single.setValue(api.api, forKey: "name")
+        single.setValue(api.auth, forKey: "auth")
+        single.setValue(api.cors, forKey: "cors")
+        single.setValue(api.category, forKey: "category")
+        single.setValue(api.description, forKey: "desc")
+        single.setValue(api.https, forKey: "https")
+        single.setValue(api.link, forKey: "link")
         do {
             try context.save()
         } catch {
@@ -167,7 +167,7 @@ class DataManager {
                             let name = x.name,
                             let cors = x.cors,
                             let link = x.link {
-                            let entry = Entry(API: name, Description: description, Auth: auth, HTTPS: https, Cors: cors, Link: link, Category: category)
+                            let entry = Entry(api: name, description: description, auth: auth, https: https, cors: cors, link: link, category: category)
                             holder.append(entry)
                         }
                     }

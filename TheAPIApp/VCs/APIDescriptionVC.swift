@@ -24,7 +24,7 @@ class APIDescriptionVC: UIViewController {
         configureNavBar()
         guard let holder                        = holder else { return }
         view.backgroundColor                    = .systemBackground
-        title                                   = holder.API
+        title                                   = holder.api
         dataView                                = DetailsView(api: holder)
         dataView.backToAPIDescriptionVCDelegate = self
         view.addSubview(dataView)
@@ -68,17 +68,17 @@ extension APIDescriptionVC :  MFMailComposeViewControllerDelegate, BackToAPIDesc
                 mail.mailComposeDelegate = self
                 mail.setToRecipients([])
                 var authFinal   = ""
-                if api.Auth == "" || api.Auth == nil {
+                if api.auth == "" || api.auth == nil {
                     authFinal   = "None"
                 } else {
-                    authFinal   = api.Auth!
+                    authFinal   = api.auth!
                 }
                 let auth        = "\nAuthorzation: " + authFinal
-                let name        = "API Name: " + api.API
-                let cors        = "\nCORS: " + api.Cors
-                let category    = "\nCategory: " + api.Category
-                let link        = "\nLink: " + api.Link
-                let description = "\n\nDescription: " + api.Description
+                let name        = "API Name: " + api.api
+                let cors        = "\nCORS: " + api.cors
+                let category    = "\nCategory: " + api.category
+                let link        = "\nLink: " + api.link
+                let description = "\n\nDescription: " + api.description
                 let body        = name + auth + cors + link + category + description
                 mail.setMessageBody(body, isHTML: false)
                 
@@ -110,7 +110,7 @@ extension APIDescriptionVC :  MFMailComposeViewControllerDelegate, BackToAPIDesc
             dataView.isFavorite                      = true
             dataView.heartImage.layer.shadowRadius   = 0
         } else {
-            DataManager.shared.removeFavovorite(title: holder.API) { [weak self] (result) in
+            DataManager.shared.removeFavovorite(title: holder.api) { [weak self] (result) in
                 guard let self = self else { return }
                 switch result {
                 case .success(_):
