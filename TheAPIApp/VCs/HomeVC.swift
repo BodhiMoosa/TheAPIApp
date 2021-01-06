@@ -9,8 +9,9 @@
 import UIKit
 
 class HomeVC: UIViewController {
-    let logoImageView = UIImageView()
-    let mainLabel = CustomLabel(text: "API App", size: 75, fontName: StaticFonts.typewriter, alightment: .center)
+    let backgroundImage = BackgroundView(labelOne: "Devs", labelTwo: "Love", labelThree: "APIs!")
+    let mainLabel       = CustomLabel(text: "API App", size: 75, fontName: StaticFonts.typewriter, alightment: .center)
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,27 +20,24 @@ class HomeVC: UIViewController {
     }
     
     private func configure() {
-        
+        navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .systemGray3
-        view.addSubview(logoImageView)
+        view.addSubview(backgroundImage)
         view.addSubview(mainLabel)
-        self.navigationController?.navigationBar.isHidden = true
-        
-        logoImageView.image = StaticImages.fullLogo
-        logoImageView.translatesAutoresizingMaskIntoConstraints = false
-        mainLabel.translatesAutoresizingMaskIntoConstraints = false
+        backgroundImage.translatesAutoresizingMaskIntoConstraints   = false
+        mainLabel.translatesAutoresizingMaskIntoConstraints         = false
 
         NSLayoutConstraint.activate([
+            
+            backgroundImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            backgroundImage.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            backgroundImage.topAnchor.constraint(equalTo: view.topAnchor),
+            backgroundImage.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
             mainLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
             mainLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             mainLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             mainLabel.heightAnchor.constraint(equalToConstant: mainLabel.font.lineHeight),
-            
-            logoImageView.widthAnchor.constraint(equalToConstant: view.bounds.width/2),
-            logoImageView.heightAnchor.constraint(equalTo: logoImageView.widthAnchor),
-            logoImageView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 40),
-            logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
             
         ])
 
@@ -70,7 +68,6 @@ class HomeVC: UIViewController {
                     }
                     self.dismissLoadingView()
                     self.presentAlertOnMainThread()
-
                 }
             }
         }

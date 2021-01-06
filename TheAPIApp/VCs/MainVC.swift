@@ -91,21 +91,23 @@ class MainVC: UIViewController {
             upButton                                            = UIBarButtonItem(title: "Top", style: .plain, target: self, action: #selector(scrollUp))
             upButton.tintColor                                  = .label
             navigationItem.rightBarButtonItem                   = upButton
+
         } else {
             navigationItem.backBarButtonItem = UIBarButtonItem(barButtonSystemItem: .camera, target: nil, action: nil)
             
         }
-        navigationController?.navigationBar.barTintColor    = .systemGray2
-        navigationController?.navigationBar.layer.shadowColor = UIColor.black.cgColor
-        navigationController?.navigationBar.layer.shadowRadius = 3
+        navigationController?.navigationBar.barTintColor        = .systemGray2
+        navigationController?.navigationBar.layer.shadowColor   = UIColor.black.cgColor
+        navigationController?.navigationBar.layer.shadowRadius  = 3
         navigationController?.navigationBar.layer.shadowOpacity = 0.25
-        navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0, height: 6)        
+        navigationController?.navigationBar.layer.shadowOffset  = CGSize(width: 0, height: 6)
     }
     
     @objc private func scrollUp() {
         let topRow = IndexPath(row: 0, section: 0)
         tableView.scrollToRow(at: topRow, at: .top, animated: true)
     }
+ 
 }
 
 
@@ -122,11 +124,8 @@ extension MainVC : UITableViewDelegate, UIScrollViewDelegate {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) { //keeps table from scrolling beyond top but still able to scroll past bottom
-        if tableOffset < 0 {
-            scrollView.bounces = (scrollView.contentOffset.y > tableOffset)
-        } else {
-            scrollView.bounces = (scrollView.contentOffset.y > 0)
-        }
+            scrollView.bounces = tableOffset > 0
+
     }
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         var title = "Favorite"
@@ -226,12 +225,14 @@ extension MainVC : UISearchControllerDelegate, UISearchResultsUpdating, UISearch
     func configureSearchController() {
         searchController.searchResultsUpdater                   = self
         searchController.searchBar.delegate                     = self
-        searchController.obscuresBackgroundDuringPresentation   = false
+        searchController.obscuresBackgroundDuringPresentation   = true
         searchController.hidesNavigationBarDuringPresentation   = false
+        
         searchController.searchBar.backgroundColor              = .systemGray2
         searchController.searchBar.placeholder                  = "Find an API!"
         navigationItem.searchController                         = searchController
-        
+        navigationItem.hidesSearchBarWhenScrolling              = false
+
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {

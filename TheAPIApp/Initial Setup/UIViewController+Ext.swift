@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WebKit
 fileprivate var containerView: UIView!
 fileprivate var categoryContainerView: UIView!
 
@@ -91,6 +92,8 @@ extension UIViewController {
             popUp.removeFromSuperview()
         }
     }
+    
+
 }
 
 

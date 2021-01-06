@@ -10,8 +10,8 @@ import UIKit
 
 
 class BackgroundView: UIView {
-
-   let fontSize     = UIScreen.main.bounds.width/9
+    let isHomeScreen: Bool
+    let fontSize     = UIScreen.main.bounds.width/9
     let logo        = UIImageView()
     var label       = CustomLabel()
     var label2      = CustomLabel()
@@ -20,14 +20,22 @@ class BackgroundView: UIView {
     let bottomCover = UIView()
     
     override init(frame: CGRect) {
+        isHomeScreen = false
         super.init(frame: frame)
-        configure()
+        configure(labelOne: "Nothing", labelTwo: "To see", labelThree: "here!")
     }
     
-    private func configure() {
-        label       = CustomLabel(text: "Nothing", size: fontSize, fontName: StaticFonts.typewriterBold, alightment: .left)
-        label2      = CustomLabel(text: "To See", size: fontSize, fontName: StaticFonts.typewriterBold, alightment: .left)
-        label3      = CustomLabel(text: "Here!", size: fontSize, fontName: StaticFonts.typewriterBold, alightment: .left)
+    init(labelOne: String, labelTwo: String, labelThree: String) {
+        isHomeScreen = true
+        super.init(frame: .zero)
+        self.configure(labelOne: labelOne, labelTwo: labelTwo, labelThree: labelThree)
+        topCover.alpha = 0
+    }
+    
+    private func configure(labelOne: String, labelTwo: String, labelThree: String) {
+        label       = CustomLabel(text: labelOne, size: fontSize, fontName: StaticFonts.typewriterBold, alightment: .left)
+        label2      = CustomLabel(text: labelTwo, size: fontSize, fontName: StaticFonts.typewriterBold, alightment: .left)
+        label3      = CustomLabel(text: labelThree, size: fontSize, fontName: StaticFonts.typewriterBold, alightment: .left)
         
         self.addSubview(label)
         self.addSubview(label2)
@@ -73,7 +81,7 @@ class BackgroundView: UIView {
             logo.heightAnchor.constraint(equalToConstant: logoSize),
             logo.widthAnchor.constraint(equalToConstant: logoSize),
             
-            bottomCover.topAnchor.constraint(equalTo: topCover.bottomAnchor),
+            bottomCover.topAnchor.constraint(equalTo: isHomeScreen ? self.topAnchor : topCover.bottomAnchor),
             bottomCover.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             bottomCover.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             bottomCover.trailingAnchor.constraint(equalTo: self.trailingAnchor)

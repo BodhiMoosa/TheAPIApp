@@ -23,13 +23,14 @@ class DetailsView: UIView, UITextFieldDelegate {
     var api : Entry!
     var holderArray : [UITextField]!
     
-    let Description = UITextView()
-    let Auth        = UITextField()
-    let HTTPS       = UITextField()
-    let Cors        = UITextField()
-    let Link        = UITextField()
-    let Category    = UITextField()
-    let emailButton = EmailButton()
+    let apiDescription  = UITextView()
+    let auth            = UITextField()
+    let https           = UITextField()
+    let cors            = UITextField()
+    let link            = UITextField()
+    let category        = UITextField()
+    let emailButton     = EmailButton()
+    let copyButton      = UIImageView(image: UIImage(systemName: "doc.on.clipboard"))
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -55,16 +56,16 @@ class DetailsView: UIView, UITextFieldDelegate {
     init(api: Entry) {
         super.init(frame: .zero)
         self.api                = api
-        Description.text        = api.description
+        apiDescription.text        = api.description
         if api.auth == "" {
-            Auth.text           = "Auth: None"
+            auth.text           = "Auth: None"
         } else {
-            Auth.text           = "Auth: " + api.auth!
+            auth.text           = "Auth: " + api.auth!
         }
-        HTTPS.text              = "HTTPS: " + String(api.https)
-        Cors.text               = "Cors: " + api.cors
-        Link.text               = api.link
-        Category.text           = "Category: " + api.category
+        https.text              = "HTTPS: " + String(api.https)
+        cors.text               = "Cors: " + api.cors
+        link.text               = api.link
+        category.text           = "Category: " + api.category
         
         configure()
         configureConstraints()
@@ -79,35 +80,42 @@ class DetailsView: UIView, UITextFieldDelegate {
         layer.shadowRadius                  = 5
         layer.borderColor                   = UIColor.gray.cgColor
         layer.borderWidth                   = 1
-        Link.delegate                       = self
-        Auth.isUserInteractionEnabled       = false
-        Cors.isUserInteractionEnabled       = false
-        HTTPS.isUserInteractionEnabled      = false
-        Category.isUserInteractionEnabled   = false
-        Description.isEditable              = false
+        link.delegate                       = self
+        auth.isUserInteractionEnabled       = false
+        cors.isUserInteractionEnabled       = false
+        https.isUserInteractionEnabled      = false
+        category.isUserInteractionEnabled   = false
+        apiDescription.isEditable           = false
         
-        addSubview(Description)
+        addSubview(apiDescription)
         addSubview(emailButton)
         addSubview(heartImage)
+        addSubview(copyButton)
         
         heartImage.layer.shadowRadius       = 1
         heartImage.layer.shadowColor        = UIColor.black.cgColor
+        heartImage.tintColor                = .systemRed
         heartImage.layer.shadowOpacity      = 1
         heartImage.layer.shadowOffset       = CGSize(width: 1, height: 1)
         heartImage.isUserInteractionEnabled = true
-        let tapRec                          = UITapGestureRecognizer()
-        tapRec.addTarget(self, action: #selector(heartTap))
+        let tapRec                          = UITapGestureRecognizer(target: self, action: #selector(heartTap))
+        copyButton.isUserInteractionEnabled = true
+        copyButton.tintColor                = .black
+        let tapToCopy                       = UITapGestureRecognizer(target: self, action: #selector(copyLink))
+        copyButton.addGestureRecognizer(tapToCopy)
         heartImage.addGestureRecognizer(tapRec)
         
-        heartImage.translatesAutoresizingMaskIntoConstraints    = false
-        Description.translatesAutoresizingMaskIntoConstraints   = false
-        emailButton.translatesAutoresizingMaskIntoConstraints   = false
-
-        Description.backgroundColor                             = UIColor.clear
+        heartImage.translatesAutoresizingMaskIntoConstraints        = false
+        apiDescription.translatesAutoresizingMaskIntoConstraints    = false
+        emailButton.translatesAutoresizingMaskIntoConstraints       = false
+        copyButton.translatesAutoresizingMaskIntoConstraints        = false
+        apiDescription.backgroundColor                              = UIColor.clear
         
         emailButton.setTitle("Email", for: .normal)
         emailButton.addTarget(self, action: #selector(emailAction), for: .touchUpInside)
         emailButton.addTarget(self, action: #selector(shadowDrop), for: .touchDown)
+ 
+        
     }
     @objc func heartTap() {
         backToAPIDescriptionVCDelegate.favoriteToggle()
@@ -124,9 +132,14 @@ class DetailsView: UIView, UITextFieldDelegate {
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        pasteboard.string = Link.text
-        backToAPIDescriptionVCDelegate.presentCopyPopUp()
+        guard let url = URL(string: link.text!) else { return false }
+        UIApplication.shared.open(url)
         return false
+    }
+    
+    @objc func copyLink() {
+        pasteboard.string = link.text
+        backToAPIDescriptionVCDelegate.presentCopyPopUp()
     }
     
     func dismissKeyboard() {
@@ -135,13 +148,13 @@ class DetailsView: UIView, UITextFieldDelegate {
     }
     
     private func configureConstraints() {
-        holderArray = [Auth, HTTPS, Cors, Link, Category]
+        holderArray = [auth, https, cors, link, category]
         
         for x in holderArray {
             addSubview(x)
             x.translatesAutoresizingMaskIntoConstraints = false
             x.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
-            x.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
+            x.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: x == link ? -40 : -10).isActive = true
             x.heightAnchor.constraint(equalToConstant: 40).isActive = true
         }
         NSLayoutConstraint.activate([
@@ -151,22 +164,29 @@ class DetailsView: UIView, UITextFieldDelegate {
             heartImage.heightAnchor.constraint(equalToConstant: 30),
             heartImage.widthAnchor.constraint(equalTo: heartImage.heightAnchor),
             
-            Auth.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 20),
-            HTTPS.topAnchor.constraint(equalTo: Auth.bottomAnchor, constant: 10),
-            Cors.topAnchor.constraint(equalTo: HTTPS.bottomAnchor, constant: 10),
-            Link.topAnchor.constraint(equalTo: Cors.bottomAnchor, constant: 10),
-            Category.topAnchor.constraint(equalTo: Link.bottomAnchor, constant: 10),
+            auth.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 20),
+            https.topAnchor.constraint(equalTo: auth.bottomAnchor, constant: 10),
+            cors.topAnchor.constraint(equalTo: https.bottomAnchor, constant: 10),
+            link.topAnchor.constraint(equalTo: cors.bottomAnchor, constant: 10),
+            category.topAnchor.constraint(equalTo: link.bottomAnchor, constant: 10),
             
-            Description.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            Description.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
-            Description.topAnchor.constraint(equalTo: Category.bottomAnchor, constant: 10),
-            Description.bottomAnchor.constraint(equalTo: emailButton.topAnchor, constant: -10),
+           apiDescription.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+           apiDescription.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+           apiDescription.topAnchor.constraint(equalTo: category.bottomAnchor, constant: 10),
+           apiDescription.bottomAnchor.constraint(equalTo: emailButton.topAnchor, constant: -10),
             
             emailButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             emailButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
             emailButton.heightAnchor.constraint(equalToConstant: 40),
-            emailButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+            emailButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            
+            copyButton.heightAnchor.constraint(equalToConstant: 25),
+            copyButton.widthAnchor.constraint(equalToConstant: 25),
+            copyButton.leadingAnchor.constraint(equalTo: link.trailingAnchor),
+            copyButton.centerYAnchor.constraint(equalTo: link.centerYAnchor)
         
         ])
     }
+   
 }
+
