@@ -14,6 +14,7 @@ class FavoritesVC: UIViewController {
     var tableData : [Entry] = []
     let tableView           = UITableView()
     var backgroundView      = UIView()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,17 +36,16 @@ class FavoritesVC: UIViewController {
     
     override func viewDidLayoutSubviews() {
         setUpTableViewBackgroundImage()
+        createNavBarShadow()
+        
     }
     
     private func configure() {
         let emailButton                     = UIBarButtonItem(image: StaticImages.plane, style: .plain, target: self, action: #selector(email))
         navigationItem.rightBarButtonItem   = emailButton
-        navigationController?.navigationBar.layer.shadowColor = UIColor.black.cgColor
-        navigationController?.navigationBar.layer.shadowRadius = 3
-        navigationController?.navigationBar.layer.shadowOpacity = 0.25
-        navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0, height: 6)
     }
 
+    
     private func configureTableView() {
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -56,6 +56,7 @@ class FavoritesVC: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ])
         tableView.register(APICell.self, forCellReuseIdentifier: APICell.reuseID)
+        tableView.register(APIFillerCell.self, forCellReuseIdentifier: APIFillerCell.reuseID)
         tableView.backgroundColor   = UIColor.systemGray4
         tableView.separatorStyle    = .none
         tableView.tableFooterView = UIView()
@@ -77,37 +78,38 @@ class FavoritesVC: UIViewController {
 
 extension FavoritesVC : UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableData.count
+        return tableData.count * 2
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return indexPath.row % 2 == 0 ? CGFloat(75) : CGFloat(1)
+    }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell            = tableView.dequeueReusableCell(withIdentifier: APICell.reuseID) as! APICell
-        cell.apiName.text   = tableData[indexPath.row].api
-        guard let last      = tableData.last else { return cell }
-        if cell.apiName.text == last.api {
-            cell.separator.isHidden = true
-        } else {
-            cell.separator.isHidden = false
+        if indexPath.row % 2 != 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: APIFillerCell.reuseID) as! APIFillerCell
+            return cell
+
         }
+        let cell            = tableView.dequeueReusableCell(withIdentifier: APICell.reuseID) as! APICell
+        cell.apiName.text   = tableData[indexPath.row / 2].api
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc                  = APIDescriptionVC()
-        vc.holder               = tableData[indexPath.row]
+        vc.holder               = tableData[indexPath.row / 2]
         vc.isDoneButton         = false
         navigationController?.pushViewController(vc, animated: true)
     }
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let action              = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, view, completed) in
             guard let self      = self else { return }
-            DataManager.shared.removeFavovorite(title: self.tableData[indexPath.row].api) { (result) in
-                switch result {
-                case .success(_):
-                    self.tableData.remove(at: indexPath.row)
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
+            switch DataManager.shared.removeFavovorite(title: self.tableData[indexPath.row / 2].api) {
+            
+            case true:
+                self.tableData.remove(at: indexPath.row / 2)
+            case false:
+                return
             }
             self.tableView.reloadData()
             if self.tableData.count == 0 {
@@ -163,7 +165,7 @@ extension FavoritesVC : MFMessageComposeViewControllerDelegate, MFMailComposeVie
             mail.setSubject("My Favorite APIs")
             present(mail, animated: true, completion: nil)
     } else {
-        presentEmailErrorOnMainThread()
+        presentAlertOnMainThread(subject: "Can't Send Email", body: "Something went wrong. Please try again later.")
         }
     }
 }

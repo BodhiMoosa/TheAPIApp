@@ -22,10 +22,10 @@ class CopyPopUpView: UIView {
         layer.borderWidth                               = 1
         layer.cornerRadius                              = 19
         backgroundColor                                 = .systemPink
-        addSubview(label)
         label.textAlignment                             = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text                                      = "Copied!"
+        addSubview(label)
         NSLayoutConstraint.activate([
             label.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             label.centerXAnchor.constraint(equalTo: self.centerXAnchor)

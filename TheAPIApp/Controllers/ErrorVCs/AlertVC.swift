@@ -11,14 +11,20 @@ import UIKit
 class AlertVC: UIViewController {
         
     let containerView       = UIView()
-    let titleLabel          = CustomLabel(text: "Data Sync Error", size: 20, fontName: StaticFonts.typewriterBold, alightment: .center)
-    let messageLabel        = CustomLabel(text: "Unable to check for new data. No worries though! We'll just check next time.", size: 12, fontName: StaticFonts.typewriter, alightment: .center)
+    var titleLabel          = CustomLabel(text: "Data Sync Error", size: 20, fontName: StaticFonts.typewriterBold, alightment: .center)
+    var messageLabel        = CustomLabel(text: "Unable to check for new data. No worries though! We'll just check next time.", size: 12, fontName: StaticFonts.typewriter, alightment: .center)
     let actionButton        = AlertButton()
     let padding : CGFloat   = 20
 
         init() {
             super.init(nibName: nil, bundle: nil)
         }
+    
+    init(subject: String, body: String) {
+        super.init(nibName: nil, bundle: nil)
+        titleLabel.text     = subject
+        messageLabel.text   = body
+    }
     
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
@@ -32,6 +38,12 @@ class AlertVC: UIViewController {
             configureMessageLabel()
             super.viewDidLoad()
         }
+    
+    override func viewDidLayoutSubviews() {
+        actionButton.configureViewBorder(borderColor: .gray, corderRadius: 10, shadowRadius: 2)
+    }
+    
+
 
         private func configureContainerView() {
             view.addSubview(containerView)

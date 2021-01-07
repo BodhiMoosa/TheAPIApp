@@ -16,14 +16,7 @@ class AlertButton: UIButton {
     }
     
     private func configure() {
-        layer.borderWidth       = 1
-        layer.borderColor       = UIColor.gray.cgColor
-        layer.cornerRadius      = 10
         backgroundColor         = .systemGray3
-        layer.shadowColor       = UIColor.gray.cgColor
-        layer.shadowOffset      = .zero
-        layer.shadowOpacity     = 0.5
-        layer.shadowRadius      = 3
         titleLabel?.font        = UIFont(name: "AmericanTypewriter", size: 18)
         setTitleColor(.black, for: .normal)
 

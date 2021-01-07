@@ -14,23 +14,23 @@ protocol BackToAPIDescriptionVCDelegate : class {
     func presentCopyPopUp()
     func favoriteToggle()
 }
-class DetailsView: UIView, UITextFieldDelegate {
+class DetailsView: UIView {
     
-    let pasteboard = UIPasteboard.general
-    var isFavorite = false
-    let heartImage = UIImageView()
+    let pasteboard                          = UIPasteboard.general
+    var isFavorite                          = false
+    let heartImage                          = UIImageView()
     weak var backToAPIDescriptionVCDelegate : BackToAPIDescriptionVCDelegate!
-    var api : Entry!
-    var holderArray : [UITextField]!
-    
-    let apiDescription  = UITextView()
-    let auth            = UITextField()
-    let https           = UITextField()
-    let cors            = UITextField()
-    let link            = UITextField()
-    let category        = UITextField()
-    let emailButton     = EmailButton()
-    let copyButton      = UIImageView(image: UIImage(systemName: "doc.on.clipboard"))
+    var api                                 : Entry!
+    var holderArray                         : [UILabel] = []
+    let apiDescription                      = UITextView()
+    let auth                                = UILabel()
+    let https                               = UILabel()
+    let cors                                = UILabel()
+    let link                                = UILabel()
+    let category                            = UILabel()
+    let emailButton                         = EmailButton()
+    let copyButton                          = UIImageView(image: UIImage(systemName: "doc.on.clipboard"))
+    var emailButtonShadowRadius             : CGFloat = 5
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -49,30 +49,35 @@ class DetailsView: UIView, UITextFieldDelegate {
         updateFaveImage()
     }
     
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    
     init(api: Entry) {
         super.init(frame: .zero)
         self.api                = api
-        apiDescription.text        = api.description
-        if api.auth == "" {
-            auth.text           = "Auth: None"
-        } else {
-            auth.text           = "Auth: " + api.auth!
-        }
+        apiDescription.text     = api.description
+
         https.text              = "HTTPS: " + String(api.https)
         cors.text               = "Cors: " + api.cors
         link.text               = api.link
         category.text           = "Category: " + api.category
-        
+        if api.auth == "" {
+            auth.text           = "Auth: None"
+        } else {
+            auth.text           = "Auth: " + (api.auth ?? "None")
+        }
+
         configure()
         configureConstraints()
     }
     private func configure() {
         updateFaveImage()
         dismissKeyboard()
+        layoutIfNeeded()
         backgroundColor                     = .systemGray4
         layer.cornerRadius                  = 10
         layer.shadowColor                   = UIColor.black.cgColor
@@ -80,11 +85,6 @@ class DetailsView: UIView, UITextFieldDelegate {
         layer.shadowRadius                  = 5
         layer.borderColor                   = UIColor.gray.cgColor
         layer.borderWidth                   = 1
-        link.delegate                       = self
-        auth.isUserInteractionEnabled       = false
-        cors.isUserInteractionEnabled       = false
-        https.isUserInteractionEnabled      = false
-        category.isUserInteractionEnabled   = false
         apiDescription.isEditable           = false
         
         addSubview(apiDescription)
@@ -92,51 +92,53 @@ class DetailsView: UIView, UITextFieldDelegate {
         addSubview(heartImage)
         addSubview(copyButton)
         
+        heartImage.layer.shouldRasterize    = true
+        heartImage.layer.rasterizationScale = UIScreen.main.scale
         heartImage.layer.shadowRadius       = 1
         heartImage.layer.shadowColor        = UIColor.black.cgColor
         heartImage.tintColor                = .systemRed
         heartImage.layer.shadowOpacity      = 1
         heartImage.layer.shadowOffset       = CGSize(width: 1, height: 1)
         heartImage.isUserInteractionEnabled = true
+        
         let tapRec                          = UITapGestureRecognizer(target: self, action: #selector(heartTap))
-        copyButton.isUserInteractionEnabled = true
-        copyButton.tintColor                = .black
         let tapToCopy                       = UITapGestureRecognizer(target: self, action: #selector(copyLink))
+        let tapGoToLink                     = UITapGestureRecognizer(target: self, action: #selector(goToLink))
+        apiDescription.backgroundColor      = UIColor.clear
+        copyButton.isUserInteractionEnabled = true
+        copyButton.tintColor                = .label
+        link.isUserInteractionEnabled       = true
+        link.addGestureRecognizer(tapGoToLink)
         copyButton.addGestureRecognizer(tapToCopy)
         heartImage.addGestureRecognizer(tapRec)
-        
+        emailButton.setTitle("Email", for: .normal)
+        emailButton.addTarget(self, action: #selector(emailAction), for: .touchUpInside)
+        emailButton.addTarget(self, action: #selector(shadowDrop), for: .touchDown)
         heartImage.translatesAutoresizingMaskIntoConstraints        = false
         apiDescription.translatesAutoresizingMaskIntoConstraints    = false
         emailButton.translatesAutoresizingMaskIntoConstraints       = false
         copyButton.translatesAutoresizingMaskIntoConstraints        = false
-        apiDescription.backgroundColor                              = UIColor.clear
-        
-        emailButton.setTitle("Email", for: .normal)
-        emailButton.addTarget(self, action: #selector(emailAction), for: .touchUpInside)
-        emailButton.addTarget(self, action: #selector(shadowDrop), for: .touchDown)
- 
-        
     }
     @objc func heartTap() {
         backToAPIDescriptionVCDelegate.favoriteToggle()
     }
     @objc func emailAction() {
-        emailButton.layer.shadowRadius  = 5
+        emailButtonShadowRadius         = 5
         emailButton.titleLabel?.font    = UIFont(name: "AmericanTypewriter", size: 18)
         backToAPIDescriptionVCDelegate.emailPopUp(api: api)
     }
     
     @objc func shadowDrop() {
-        emailButton.layer.shadowRadius  = 0
-        emailButton.titleLabel?.font    = UIFont(name: "AmericanTypewriter", size: 16)
+        emailButtonShadowRadius         = 0
+        emailButton.titleLabel?.font    = UIFont(name: "AmericanTypewriter", size: 17)
+
     }
     
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        guard let url = URL(string: link.text!) else { return false }
+    @objc func goToLink() {
+        guard let url = URL(string: link.text!) else { return }
         UIApplication.shared.open(url)
-        return false
     }
-    
+  
     @objc func copyLink() {
         pasteboard.string = link.text
         backToAPIDescriptionVCDelegate.presentCopyPopUp()

@@ -12,10 +12,9 @@ class APICell: UITableViewCell {
 
     static let reuseID = "APICell"
     
-    var indexPath = IndexPath()
-    let apiName = UILabel()
-    let heart   = UIImageView()
-    let separator = UIView()
+    var indexPath   = IndexPath()
+    let apiName     = UILabel()
+    let heart       = UIImageView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -27,6 +26,7 @@ class APICell: UITableViewCell {
     }
     
     private func configure() {
+        
         addSubview(apiName)
         apiName.textAlignment                               = .center
         apiName.translatesAutoresizingMaskIntoConstraints   = false
@@ -35,15 +35,8 @@ class APICell: UITableViewCell {
         apiName.adjustsFontSizeToFitWidth                   = true
         apiName.minimumScaleFactor                          = 0.50
         
-                                     
-        
         addSubview(heart)
-    
         heart.translatesAutoresizingMaskIntoConstraints = false
-        
-        addSubview(separator)
-        separator.translatesAutoresizingMaskIntoConstraints = false
-        separator.backgroundColor = .systemBlue
         
         NSLayoutConstraint.activate([
 
@@ -56,14 +49,6 @@ class APICell: UITableViewCell {
             heart.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5),
             heart.widthAnchor.constraint(equalToConstant: 20),
             heart.heightAnchor.constraint(equalToConstant: 20),
-            
-            separator.heightAnchor.constraint(equalToConstant: 1),
-            separator.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
-            separator.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30),
-            separator.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -1)
-            
-            
-        
         ])
     }
     

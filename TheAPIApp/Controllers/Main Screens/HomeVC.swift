@@ -8,9 +8,9 @@
 
 import UIKit
 
-class HomeVC: UIViewController {
-    let backgroundImage = BackgroundView(labelOne: "Devs", labelTwo: "Love", labelThree: "APIs!")
-    let mainLabel       = CustomLabel(text: "API App", size: 75, fontName: StaticFonts.typewriter, alightment: .center)
+final class HomeVC: UIViewController {
+    private let backgroundImage = BackgroundView(labelOne: "Devs", labelTwo: "Love", labelThree: "APIs!")
+    private let mainLabel       = CustomLabel(text: "API App", size: 75, fontName: StaticFonts.typewriter, alightment: .center)
     
     
     override func viewDidLoad() {
@@ -20,10 +20,10 @@ class HomeVC: UIViewController {
     }
     
     private func configure() {
-        navigationController?.navigationBar.isHidden = true
-        view.backgroundColor = .systemGray3
         view.addSubview(backgroundImage)
         view.addSubview(mainLabel)
+        navigationController?.navigationBar.isHidden                = true
+        view.backgroundColor                                        = .systemGray3
         backgroundImage.translatesAutoresizingMaskIntoConstraints   = false
         mainLabel.translatesAutoresizingMaskIntoConstraints         = false
 
@@ -40,7 +40,6 @@ class HomeVC: UIViewController {
             mainLabel.heightAnchor.constraint(equalToConstant: mainLabel.font.lineHeight),
             
         ])
-
     }
     
     private func apiPull() {

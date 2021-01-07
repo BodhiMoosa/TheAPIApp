@@ -26,3 +26,18 @@ enum StaticImages {
     static let plane        = UIImage(systemName: "paperplane")
     static let upArrow      = UIImage(systemName: "arrow.up")
 }
+
+enum CoreDataKeys: String {
+    case name           = "name"
+    case auth           = "auth"
+    case cors           = "cors"
+    case category       = "category"
+    case description    = "desc"
+    case https          = "https"
+    case link           = "link"
+}
+
+enum CoreDataEntities: String {
+    case favorite       = "Favorite"
+    case singleAPI      = "SingleAPI"
+}

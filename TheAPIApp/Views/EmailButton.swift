@@ -16,18 +16,12 @@ class EmailButton: UIButton {
     }
     
     private func configure() {
-        layer.borderWidth = 1
-        layer.borderColor = UIColor.gray.cgColor
-        layer.cornerRadius = 10
-        backgroundColor = .systemGray3
+        backgroundColor     = .systemGray3
         setTitleColor(.black, for: .normal)
-        layer.shadowColor = UIColor.gray.cgColor
-        layer.shadowOffset = .zero
-        layer.shadowOpacity = 0.5
-        layer.shadowRadius = 3
-        titleLabel?.font = UIFont(name: "AmericanTypewriter", size: 18)
+        titleLabel?.font    = UIFont(name: "AmericanTypewriter", size: 18)
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
+

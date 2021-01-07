@@ -14,14 +14,13 @@ fileprivate var categoryContainerView: UIView!
 extension UIViewController {
     
     func displayLoadingView() {
-        containerView = UIView(frame: view.bounds)
-        view.addSubview(containerView)
-        containerView.backgroundColor = .systemGray3
-        containerView.alpha = 0
-        UIView.animate(withDuration: 0.25) { containerView.alpha = 0.8 }
-        let activityIndicator = UIActivityIndicatorView(style: .large)
-        containerView.addSubview(activityIndicator)
+        let activityIndicator                                       = UIActivityIndicatorView(style: .large)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        containerView                                               = UIView(frame: view.bounds)
+        containerView.backgroundColor                               = UIColor.systemGray3.withAlphaComponent(0)
+        view.addSubview(containerView)
+        containerView.addSubview(activityIndicator)
+        UIView.animate(withDuration: 0.25) { containerView.alpha = 0.8 }
         NSLayoutConstraint.activate([
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor)
@@ -59,17 +58,15 @@ extension UIViewController {
         view.addSubview(backgroundView)
     }
     
-    func presentAlertOnMainThread() {
+    func presentAlertOnMainThread(subject: String? = nil, body: String? = nil) {
         DispatchQueue.main.async {
-            let alertVC = AlertVC()
-            alertVC.modalPresentationStyle  = .overFullScreen
-            alertVC.modalTransitionStyle    = .crossDissolve
-            self.present(alertVC, animated: true)
-        }
-    }
-    func presentEmailErrorOnMainThread() {
-        DispatchQueue.main.async {
-            let alertVC = EmailErrorVC()
+            var alertVC : AlertVC
+            if (subject != nil && body != nil) {
+                guard let subject = subject, let body = body else { return }
+                alertVC = AlertVC(subject: subject, body: body)
+            } else {
+                alertVC = AlertVC()
+            }
             alertVC.modalPresentationStyle  = .overFullScreen
             alertVC.modalTransitionStyle    = .crossDissolve
             self.present(alertVC, animated: true)
@@ -87,12 +84,20 @@ extension UIViewController {
             popUp.heightAnchor.constraint(equalToConstant: 100),
             popUp.widthAnchor.constraint(equalToConstant: 250)
         ])
-        UIView.animate(withDuration: 0.25) { popUp.alpha = 0.8 }
+        UIView.animate(withDuration: 0.25) { popUp.alpha = 0.7 }
         UIView.animate(withDuration: 0.75, animations: { popUp.alpha = 0 }) { _ in
             popUp.removeFromSuperview()
         }
     }
     
+    func createNavBarShadow() {
+        guard let navigationBarBounds = navigationController?.navigationBar.bounds else { return }
+        navigationController?.navigationBar.layer.shadowPath    = UIBezierPath(rect: navigationBarBounds).cgPath
+        navigationController?.navigationBar.layer.shadowColor   = UIColor.black.cgColor
+        navigationController?.navigationBar.layer.shadowRadius  = 3
+        navigationController?.navigationBar.layer.shadowOpacity = 0.25
+        navigationController?.navigationBar.layer.shadowOffset  = CGSize(width: 0, height: 6)
+    }
 
 }
 

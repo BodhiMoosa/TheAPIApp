@@ -15,13 +15,13 @@ struct API : Hashable, Codable {
 }
 
 struct Entry : Hashable, Codable {
-    let api : String
+    let api         : String
     let description : String
-    let auth : String?
-    let https : Bool
-    let cors : String
-    let link : String
-    let category : String
+    let auth        : String?
+    let https       : Bool
+    let cors        : String
+    let link        : String
+    let category    : String
     
     
     // MARK: custom coding key to handle uppercase keys from JSON data

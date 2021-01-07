@@ -10,26 +10,34 @@ import UIKit
 import MessageUI
 
 class APIDescriptionVC: UIViewController {
-    
-    var dataView        = DetailsView()
-    var isDoneButton    = true
-    var holder : Entry?
+    private var backgroundBaseView  = UIView()
+    private var dataView            = DetailsView()
+    var isDoneButton                = true
+    var holder                      : Entry?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
     }
     
+    override func viewDidLayoutSubviews() {
+        dataView.layer.shadowPath = UIBezierPath(roundedRect: dataView.bounds, cornerRadius: 10).cgPath
+        dataView.emailButton.configureViewBorder(shadowRadius: dataView.emailButtonShadowRadius)
+    }
     private func configure() {
         configureNavBar()
-        guard let holder                        = holder else { return }
-        view.backgroundColor                    = .systemBackground
-        title                                   = holder.api
-        dataView                                = DetailsView(api: holder)
-        dataView.backToAPIDescriptionVCDelegate = self
+        guard let holder                                                = holder else { return }
+        backgroundBaseView.backgroundColor                              = UIColor.systemBlue.withAlphaComponent(0.4)
+        backgroundBaseView.translatesAutoresizingMaskIntoConstraints    = false
+        backgroundBaseView.frame                                        = view.bounds
+        view.backgroundColor                                            = .systemGray
+        title                                                           = holder.api
+        dataView                                                        = DetailsView(api: holder)
+        dataView.backToAPIDescriptionVCDelegate                         = self
+        dataView.translatesAutoresizingMaskIntoConstraints              = false
+        let padding                                                     : CGFloat = 10
+        view.addSubview(backgroundBaseView)
         view.addSubview(dataView)
-        dataView.translatesAutoresizingMaskIntoConstraints = false
-        let padding : CGFloat = 10
         NSLayoutConstraint.activate([
             dataView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             dataView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
@@ -44,11 +52,11 @@ class APIDescriptionVC: UIViewController {
 
     private func configureNavBar() {
         if isDoneButton {
-            let doneButton                                      = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissVC))
-            doneButton.tintColor                                = .label
-            navigationItem.rightBarButtonItem                   = doneButton
+            let doneButton                                  = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissVC))
+            doneButton.tintColor                            = .label
+            navigationItem.rightBarButtonItem               = doneButton
         }
-        navigationController?.navigationBar.barTintColor        = .systemGray2
+        navigationController?.navigationBar.barTintColor    = .systemGray2
     }
 }
 
@@ -56,8 +64,6 @@ extension APIDescriptionVC :  MFMailComposeViewControllerDelegate, BackToAPIDesc
     func presentCopyPopUp() {
         self.popUpPasteView()
     }
-    
-    
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true, completion: nil)
     }
@@ -81,47 +87,35 @@ extension APIDescriptionVC :  MFMailComposeViewControllerDelegate, BackToAPIDesc
                 let description = "\n\nDescription: " + api.description
                 let body        = name + auth + cors + link + category + description
                 mail.setMessageBody(body, isHTML: false)
-                
                 present(mail, animated: true, completion: nil)
-            
         } else {
-            presentEmailErrorOnMainThread()
+            presentAlertOnMainThread(subject: "Cannot Send Email", body: "Something went wrong. Please try again later.")
         }
     }
     
     func favoriteToggle() {
         guard let holder = holder else { return }
         if !dataView.isFavorite {
-            
-            DataManager.shared.saveFavorite(api: holder) { [weak self] (result) in
-                guard let self = self else { return }
-                switch result {
-                case .success(_):
-                    DispatchQueue.main.async {
-                        self.dataView.heartImage.image = StaticImages.heartFilled
-                        self.dataView.isFavorite = true
-                        self.dataView.heartImage.layer.shadowRadius = 0
-                    }
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
+            switch DataManager.shared.saveFavorite(api: holder) {
+            case true:
+                dataView.heartImage.image              = StaticImages.heartFilled
+                dataView.isFavorite                    = true
+                dataView.heartImage.layer.shadowRadius = 0
+            case false:
+                return
             }
-            dataView.heartImage.image                = StaticImages.heartFilled
-            dataView.isFavorite                      = true
-            dataView.heartImage.layer.shadowRadius   = 0
+            dataView.heartImage.image                   = StaticImages.heartFilled
+            dataView.isFavorite                         = true
+            dataView.heartImage.layer.shadowRadius      = 0
         } else {
-            DataManager.shared.removeFavovorite(title: holder.api) { [weak self] (result) in
-                guard let self = self else { return }
-                switch result {
-                case .success(_):
-                    DispatchQueue.main.async {
-                        self.dataView.heartImage.image               = StaticImages.heartEmpty
-                        self.dataView.heartImage.layer.shadowRadius  = 1
-                        self.dataView.isFavorite                     = false
-                    }
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
+            switch DataManager.shared.removeFavovorite(title: holder.api) {
+            case true:
+                dataView.heartImage.image               = StaticImages.heartEmpty
+                dataView.heartImage.layer.shadowRadius  = 1
+                dataView.isFavorite                     = false
+            case false:
+                return
+                
             }
             dataView.heartImage.image                = StaticImages.heartEmpty
             dataView.heartImage.layer.shadowRadius   = 1

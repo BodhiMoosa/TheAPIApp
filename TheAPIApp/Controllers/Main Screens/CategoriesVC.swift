@@ -8,28 +8,28 @@
 
 import UIKit
 
-class CategoriesVC: UIViewController {
+final class CategoriesVC: UIViewController {
     
-    var isSearching = false
-    let tableView = UITableView()
-    var categoriesArray = DataManager.shared.getCategories()
-    var filteringData : [String] = []
-    var backgroundView = UIView()
+    private var isSearching     = false
+    private let tableView       = UITableView()
+    private var categoriesArray = DataManager.shared.getCategories()
+    private var filteringData   : [String] = []
+    private var backgroundView  = UIView()
+    
+    override func viewWillAppear(_ animated: Bool) {
+         if categoriesArray.count == 0 {
+             categoriesArray = DataManager.shared.getCategories()
+         }
+     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
-        configureNavBar()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        if categoriesArray.count == 0 {
-            categoriesArray = DataManager.shared.getCategories()
-        }
     }
     
     override func viewDidLayoutSubviews() {
         setupTableViewBackgroundImage()
+        createNavBarShadow()
     }
     
     private func configureTableView() {
@@ -38,6 +38,7 @@ class CategoriesVC: UIViewController {
         tableView.separatorStyle    = .none
         tableView.rowHeight         = 75
         tableView.register(APICell.self, forCellReuseIdentifier: APICell.reuseID)
+        tableView.register(APIFillerCell.self, forCellReuseIdentifier: APIFillerCell.reuseID)
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -49,36 +50,45 @@ class CategoriesVC: UIViewController {
     }
     
     private func setupTableViewBackgroundImage() {
-                backgroundView.frame = tableView.frame
+                backgroundView.frame        = tableView.frame
                 displayBackgroundView(view: backgroundView)
-                tableView.backgroundView = backgroundView
-    }
-    
-    private func configureNavBar() {
-        navigationController?.navigationBar.layer.shadowColor = UIColor.black.cgColor
-        navigationController?.navigationBar.layer.shadowRadius = 3
-        navigationController?.navigationBar.layer.shadowOpacity = 0.25
-        navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0, height: 6)
+                tableView.backgroundView    = backgroundView
     }
 }
 
+//MARK: Table DataSource/Delegates
 extension CategoriesVC : UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categoriesArray.count == 0 ? 0 : categoriesArray.count
+        return categoriesArray.count == 0 ? 0 : categoriesArray.count * 2
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row % 2 == 0 {
+            return CGFloat(75)
+        } else {
+            return CGFloat(1)
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: APICell.reuseID) as! APICell
-        cell.set(api: categoriesArray[indexPath.row])
-        return cell
+        if indexPath.row % 2 != 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: APIFillerCell.reuseID) as! APIFillerCell
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: APICell.reuseID) as! APICell
+            cell.set(api: categoriesArray[indexPath.row / 2])
+            return cell
+        }
+
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = MainVC()
-        vc.title = categoriesArray[indexPath.row]
+        let vc      = MainVC()
+        vc.title    = categoriesArray[indexPath.row / 2]
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) { //keeps table from scrolling beyond top but still able to scroll past bottom
+    //keeps table from scrolling beyond top but still able to scroll past bottom
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         scrollView.bounces = (scrollView.contentOffset.y > 10)
     }
     
