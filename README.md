@@ -7,9 +7,18 @@ Copy links for API documentation as well as open up links in browser.
 Small adjustments to views
 Cleaned up code
 
-![Main Screen](https://bodhimoosa-misc.s3.amazonaws.com/Simulator+Screen+Shot+-+iPhone+12+Pro+-+2021-01-07+at+17.28.21.png)
-![ALL APIs](https://bodhimoosa-misc.s3.amazonaws.com/Simulator+Screen+Shot+-+iPhone+12+Pro+-+2021-01-07+at+17.28.26.png)
-![Single API](https://bodhimoosa-misc.s3.amazonaws.com/Simulator+Screen+Shot+-+iPhone+12+Pro+-+2021-01-07+at+17.28.41.png)
+<p align="center">
+<IMG SRC="https://bodhimoosa-misc.s3.amazonaws.com/Simulator+Screen+Shot+-+iPhone+12+Pro+-+2021-01-07+at+17.28.21.png" width="30%">
+</p>
+ <p align="center">
+<IMG SRC="https://bodhimoosa-misc.s3.amazonaws.com/Simulator+Screen+Shot+-+iPhone+12+Pro+-+2021-01-07+at+17.28.26.png" width="30%">
+ </p>
+<p align="center">
+<IMG SRC="https://bodhimoosa-misc.s3.amazonaws.com/Simulator+Screen+Shot+-+iPhone+12+Pro+-+2021-01-07+at+17.28.41.png" width="30%">
+ </p>
+
+  
+  
 
 ## Built With
 
